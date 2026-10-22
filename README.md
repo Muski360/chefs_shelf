@@ -13,7 +13,7 @@
 
 ### 1.1 Propósito e escopo
 
-O Chef's Shelf deve permitir que usuários descubram receitas online e guardem cópias completas em um caderno pessoal. O escopo inclui cadastro e login, busca na TheMealDB, visualização de imagem, ingredientes e instruções, salvamento no Cloud Firestore, consulta do caderno e exclusão de receitas salvas. Cada usuário deve acessar somente o próprio caderno.
+O Chef's Shelf deve permitir que usuários descubram receitas online e guardem cópias completas em um caderno pessoal. O escopo inclui cadastro e login por e-mail e senha, login com Google, busca na TheMealDB, visualização de imagem, ingredientes e instruções, salvamento no Cloud Firestore, consulta do caderno e exclusão de receitas salvas. Cada usuário deve acessar somente o próprio caderno.
 
 O caderno permite salvar, consultar e excluir receitas. A edição de receitas salvas está fora do escopo.
 
@@ -56,11 +56,11 @@ O sistema deve permitir criar uma conta para identificar o dono do caderno. **Ac
 
 ### RF-02 — Entrar e sair da conta
 
-O sistema deve permitir entrar com conta cadastrada e encerrar a sessão. **Aceitação:** credenciais válidas abrem o caderno da conta; credenciais inválidas mostram erro; após sair, o caderno fica indisponível até novo login.
+O sistema deve permitir entrar com e-mail e senha ou com uma conta Google e encerrar a sessão. **Aceitação:** credenciais válidas abrem o caderno da conta; credenciais inválidas mostram erro; após sair, o caderno fica indisponível até novo login.
 
 ### RF-03 — Buscar receitas online
 
-O sistema deve buscar receitas por nome na TheMealDB. **Aceitação:** resultados encontrados são exibidos; uma busca sem resultados informa o estado vazio; falha de rede ou da API é comunicada ao usuário.
+O sistema deve buscar receitas por nome na TheMealDB. **Aceitação:** a tela inicia sem resultados e aguarda a pesquisa do usuário; resultados encontrados são exibidos; uma busca sem resultados informa o estado vazio; falha de rede ou da API é comunicada ao usuário.
 
 ### RF-04 — Exibir detalhes online
 
@@ -128,7 +128,7 @@ O campo `recipeId` no caminho do documento usa o `idMeal` retornado pela TheMeal
 | Interface | Papel | Operação |
 | --- | --- | --- |
 | TheMealDB | Busca e detalhes | `GET /api/json/v1/1/search.php?s={nome}`; `GET /api/json/v1/1/lookup.php?i={id}` quando necessário |
-| Firebase Authentication | Identificação | Cadastro, login, sessão e logout |
+| Firebase Authentication | Identificação | Cadastro por e-mail e senha, login por e-mail e senha ou Google, sessão e logout |
 | Cloud Firestore | Persistência | Criar, ler e excluir em `users/{uid}/recipes` |
 
 | Tela | Responsabilidade |

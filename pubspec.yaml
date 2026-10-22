@@ -1,5 +1,5 @@
 name: chefs_shelf
-description: "A new Flutter project."
+description: "Caderno pessoal de receitas com TheMealDB e Firebase."
 publish_to: 'none'
 version: 0.1.0+1
 
@@ -12,6 +12,8 @@ dependencies:
   firebase_core: ^5.0.0
   flutter:
     sdk: flutter
+  google_sign_in: ^7.2.0
+  http: ^1.6.0
 
 dev_dependencies:
   flutter_test:
@@ -20,3 +22,5 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  assets:
+    - lib/Constants/assets/
