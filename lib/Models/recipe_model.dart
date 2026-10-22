@@ -1,5 +1,5 @@
 class RecipeModel {
-  final String? id;
+  final String id;
   final String title;
   final String? imagePath;
   final String? category;
@@ -9,17 +9,16 @@ class RecipeModel {
   final List<String> instructions;
 
   const RecipeModel({
-    this.id,
+    required this.id,
     required this.title,
     this.imagePath,
     this.category,
     this.area,
     this.tags = const [],
-    this.ingredients = const [],
-    this.instructions = const [],
+    required this.ingredients,
+    required this.instructions,
   });
 
-  /// Serializes the app's structured recipe format for Firestore.
   Map<String, dynamic> toMap() => {
     'id': id,
     'title': title,
@@ -32,18 +31,15 @@ class RecipeModel {
   };
 
   factory RecipeModel.fromMap(Map<String, dynamic> map) {
-    if (map.containsKey('strMeal') || map.containsKey('idMeal')) {
-      return RecipeModel.fromMealDb(map);
-    }
     return RecipeModel(
-      id: map['id']?.toString(),
-      title: map['title']?.toString() ?? '',
+      id: _requiredString(map['id'], 'id'),
+      title: _requiredString(map['title'], 'title'),
       imagePath: map['imagePath']?.toString(),
       category: map['category']?.toString(),
       area: map['area']?.toString(),
-      tags: _strings(map['tags']),
-      ingredients: _strings(map['ingredients']),
-      instructions: _strings(map['instructions']),
+      tags: List<String>.from(map['tags'] as List? ?? const []),
+      ingredients: List<String>.from(map['ingredients'] as List),
+      instructions: List<String>.from(map['instructions'] as List),
     );
   }
 
@@ -58,8 +54,8 @@ class RecipeModel {
     }
 
     return RecipeModel(
-      id: meal['idMeal']?.toString(),
-      title: meal['strMeal']?.toString() ?? '',
+      id: _requiredString(meal['idMeal'], 'idMeal'),
+      title: _requiredString(meal['strMeal'], 'strMeal'),
       imagePath: meal['strMealThumb']?.toString(),
       category: meal['strCategory']?.toString(),
       area: meal['strArea']?.toString(),
@@ -77,5 +73,12 @@ class RecipeModel {
         .map((item) => item?.toString().trim() ?? '')
         .where((item) => item.isNotEmpty)
         .toList();
+  }
+
+  static String _requiredString(dynamic value, String field) {
+    if (value is! String || value.trim().isEmpty) {
+      throw FormatException('Campo obrigatório inválido: $field');
+    }
+    return value.trim();
   }
 }
